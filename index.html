@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="app.js"></script>
-</head>
-<body>
-    
-</body>
+  </head>
+
+  <body>
+    <div id="start">
+      <h1>Welcome to Battleship!</h1>
+      <button onclick="startGame(true)"><h2>Manual Start</h2></button>
+      <button onclick="startGame(false)"><h2>Random Start</h2></button>
+      <button hidden><h2>How To Play</h2></button>
+    </div>
+    <div id="manual-start" class="start-hidden" hidden></div>
+    <div id="game" class="start-hidden" hidden></div>
+  </body>
 </html>
