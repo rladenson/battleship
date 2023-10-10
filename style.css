@@ -21,6 +21,13 @@ body {
 .cell.miss {
   background-color: rgb(47, 47, 213);
 }
+.cellOverlay {
+  width: 100%;
+  height: 100%;
+}
+.cellOverlay:hover {
+  background-color: rgba(61, 14, 14, 0.6);
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);

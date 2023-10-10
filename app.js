@@ -79,6 +79,9 @@ const buildGridHTML = (gridCells) => {
   for (let i = 0; i < gridCells.length; i++) {
     for (let j = 0; j < gridCells[i].length; j++) {
       const cell = document.createElement("div");
+      const inner = document.createElement("div");
+      inner.classList.add("cellOverlay");
+      cell.appendChild(inner);
       cell.classList.add("cell");
       cell.setAttribute("row", i);
       cell.setAttribute("col", j);
