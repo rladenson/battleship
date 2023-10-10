@@ -11,3 +11,14 @@ body {
 #start button {
   margin: 0 10vw;
 }
+.cell {
+  background-color: aquamarine;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: 90vw;
+  height: 90vw;
+  margin: 0 auto;
+}

@@ -5,26 +5,35 @@ class Game {
   //  constr
   constructor(manualStart = false) {
     //      calls one of starts
-    this.grid = manualStart ? this.manualStart() : this.randomStart();
+    manualStart ? this.makeGridManual() : this.makeGridRandom();
     //      initialize turns
     this.turns = 70;
     //      makes sure grid is set up properly?
+
+    this.shipHP = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
   }
   //  random start
-  randomStart = () => {
-    const arr = [];
-    const arrInner = [];
-    for (let i = 0; i < 10; i++) {
-      arrInner.push(false);
-    }
-    for (let i = 0; i < 10; i++) {
-      arr.push([...arrInner]);
-    }
+  makeGridRandom = () => {
+    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
+    const gridHTML = buildGridHTML();
+    this.gridCells = gridHTML[0];
+    this.gridEl = gridHTML[1];
+    document.getElementById("game").removeAttribute("hidden");
+    document.getElementById("game").innerHTML = "";
+    document.getElementById("game").appendChild(this.gridEl);
+    // const arr = [];
+    // const arrInner = [];
+    // for (let i = 0; i < 10; i++) {
+    //   arrInner.push(-1);
+    // }
+    // for (let i = 0; i < 10; i++) {
+    //   arr.push([...arrInner]);
+    // }
   };
   //  choice start
-  manualStart = () => {
+  makeGridManual = () => {
     //this will be changed later, but until I implement that
-    return this.randomStart();
+    return this.makeGridRandom();
   };
   //  hit tile
   bombTile = (x, y) => {
@@ -50,7 +59,25 @@ class Game {
 }
 
 //make new game
-const startGame = (manualStart) => {
-  document.getElementById("start").setAttribute("hidden", "");
+const go = (manualStart) => {
+  document.getElementById("start").style.display = "none";
   game = new Game(manualStart);
+};
+
+const buildGridHTML = () => {
+  const grid = [];
+  const gridEl = document.createElement("div");
+  gridEl.classList.add("grid");
+  for (let i = 0; i < 10; i++) {
+    grid.push([]);
+    for (let j = 0; j < 10; j++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.setAttribute("row", i);
+      cell.setAttribute("col", j);
+      grid[i].push(cell);
+      gridEl.appendChild(cell);
+    }
+  }
+  return [grid, gridEl];
 };

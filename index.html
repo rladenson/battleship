@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="randomStarts.js"></script>
     <script src="app.js"></script>
   </head>
 
   <body>
     <div id="start">
       <h1>Welcome to Battleship!</h1>
-      <button onclick="startGame(true)"><h2>Manual Start</h2></button>
-      <button onclick="startGame(false)"><h2>Random Start</h2></button>
+      <button onclick="go(true)"><h2>Manual Start</h2></button>
+      <button onclick="go(false)"><h2>Random Start</h2></button>
       <button hidden><h2>How To Play</h2></button>
     </div>
     <div id="manual-start" class="start-hidden" hidden></div>
