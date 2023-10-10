@@ -1,5 +1,6 @@
 let game;
-
+const missAudio = new Audio("assets/352103__inspectorj__splash-jumping-g.wav");
+const hitAudio = new Audio("assets/521105__matrixxx__retro-explosion-07.wav");
 //game class
 class Game {
   //  constr
@@ -16,7 +17,7 @@ class Game {
   makeGridRandom = () => {
     const grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
     const gridHTML = buildGridHTML(grid);
-    this.grid = gridHTML[0];
+    //this.grid = gridHTML[0];
     this.gridEl = gridHTML[1];
     document.getElementById("game").removeAttribute("hidden");
     document.getElementById("game").innerHTML = "";
@@ -65,6 +66,15 @@ class Cell {
   setElement = (element) => {
     this.element = element;
   };
+  hitCell = (e) => {
+    if (this.hit) return;
+    this.hit = true;
+    const hit = this.shipID !== -1;
+    hitAudio.load();
+    missAudio.load();
+    hit ? hitAudio.play() : missAudio.play();
+    e.target.parentElement.classList.add(hit ? "hit" : "miss");
+  };
 }
 
 //make new game
@@ -85,6 +95,9 @@ const buildGridHTML = (gridCells) => {
       cell.classList.add("cell");
       cell.setAttribute("row", i);
       cell.setAttribute("col", j);
+
+      cell.onclick = gridCells[i][j].hitCell;
+
       gridCells[i][j].setElement(cell);
       gridEl.appendChild(cell);
     }
