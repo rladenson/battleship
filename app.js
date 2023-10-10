@@ -14,21 +14,13 @@ class Game {
   }
   //  random start
   makeGridRandom = () => {
-    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
-    const gridHTML = buildGridHTML();
-    this.gridCells = gridHTML[0];
+    const grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
+    const gridHTML = buildGridHTML(grid);
+    this.grid = gridHTML[0];
     this.gridEl = gridHTML[1];
     document.getElementById("game").removeAttribute("hidden");
     document.getElementById("game").innerHTML = "";
     document.getElementById("game").appendChild(this.gridEl);
-    // const arr = [];
-    // const arrInner = [];
-    // for (let i = 0; i < 10; i++) {
-    //   arrInner.push(-1);
-    // }
-    // for (let i = 0; i < 10; i++) {
-    //   arr.push([...arrInner]);
-    // }
   };
   //  choice start
   makeGridManual = () => {
@@ -58,26 +50,41 @@ class Game {
   lose = () => {};
 }
 
+class Cell {
+  constructor(shipID, left = false, right = false, up = false, down = false) {
+    //number
+    this.shipID = shipID;
+    //bools
+    this.left = left;
+    this.right = right;
+    this.up = up;
+    this.down = down;
+
+    this.hit = false;
+  }
+  setElement = (element) => {
+    this.element = element;
+  };
+}
+
 //make new game
 const go = (manualStart) => {
   document.getElementById("start").style.display = "none";
   game = new Game(manualStart);
 };
 
-const buildGridHTML = () => {
-  const grid = [];
+const buildGridHTML = (gridCells) => {
   const gridEl = document.createElement("div");
   gridEl.classList.add("grid");
-  for (let i = 0; i < 10; i++) {
-    grid.push([]);
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < gridCells.length; i++) {
+    for (let j = 0; j < gridCells[i].length; j++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.setAttribute("row", i);
       cell.setAttribute("col", j);
-      grid[i].push(cell);
+      gridCells[i][j].setElement(cell);
       gridEl.appendChild(cell);
     }
   }
-  return [grid, gridEl];
+  return [gridCells, gridEl];
 };
