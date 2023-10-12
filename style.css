@@ -1,5 +1,6 @@
 body {
   background-color: rgb(61, 14, 14);
+  color: whitesmoke;
   text-align: center;
 }
 #start {
@@ -39,4 +40,12 @@ body {
   margin: 0 auto;
   gap: 1px;
   margin-top: 2em;
+}
+#credits button {
+  padding: 0 10vw;
+}
+
+
+.start-hidden {
+  display: none;
 }

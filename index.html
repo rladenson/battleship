@@ -15,8 +15,23 @@
       <button onclick="go(true)"><h2>Manual Start</h2></button>
       <button onclick="go(false)"><h2>Random Start</h2></button>
       <button hidden><h2>How To Play</h2></button>
+      <button onclick="openCredits()"><h2>Credits</h2></button>
     </div>
-    <div id="manual-start" class="start-hidden" hidden></div>
-    <div id="game" class="start-hidden" hidden></div>
+    <div id="manual-start" class="start-hidden"></div>
+    <div id="game" class="start-hidden"></div>
+    <div id="credits" class="start-hidden">
+      <h1>Credits</h1>
+      <h2>Created by Petal Ladenson</h2>
+      <h3>
+        Miss sound by InspectorJ of
+        <a href="https://freesound.org">Freesound.org</a>
+      </h3>
+      <h3>
+        Hit sound by MATRIXXX_ of
+        <a href="https://freesound.org">Freesound.org</a>
+      </h3>
+      <br /><br />
+      <button onclick="backToStart(false)"><h3>Back</h3></button>
+    </div>
   </body>
 </html>

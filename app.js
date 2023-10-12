@@ -19,7 +19,7 @@ class Game {
     const gridHTML = buildGridHTML(grid);
     //this.grid = gridHTML[0];
     this.gridEl = gridHTML[1];
-    document.getElementById("game").removeAttribute("hidden");
+    document.getElementById("game").style.display = "block";
     document.getElementById("game").innerHTML = "";
     document.getElementById("game").appendChild(this.gridEl);
   };
@@ -103,4 +103,16 @@ const buildGridHTML = (gridCells) => {
     }
   }
   return [gridCells, gridEl];
+};
+
+const backToStart = () => {
+  const hide = document.getElementsByClassName("start-hidden");
+  for (let i = 0; i < hide.length; i++) {
+    hide[i].style.display = "none";
+  }
+  document.getElementById("start").style.display = "flex";
+};
+const openCredits = () => {
+  document.getElementById("start").style.display = "none";
+  document.getElementById("credits").style.display = "block";
 };
