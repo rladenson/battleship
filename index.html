@@ -14,7 +14,9 @@
     <div id="start">
       <h1>Welcome to Battleship!</h1>
       <button onclick="go(true)"><h2>Manual Start</h2></button>
-      <button onclick="go(false)" data-modal="modal-sound-warning"><h2>Random Start</h2></button>
+      <button onclick="go(false)" data-modal="modal-sound-warning">
+        <h2>Random Start</h2>
+      </button>
       <button hidden><h2>How To Play</h2></button>
       <button onclick="openCredits()"><h2>Credits</h2></button>
     </div>
@@ -46,6 +48,13 @@
       <div class="modal-container">
         <h1>Warning</h1>
         <h2>This website uses sound (including explosions)</h2>
+        <button class="modal-close modal-exit">X</button>
+      </div>
+    </div>
+    <div class="modal" id="modal-ship-destroyed">
+      <div class="modal-bg modal-exit"></div>
+      <div class="modal-container">
+        <h2>You sunk a ship!</h2>
         <button class="modal-close modal-exit">X</button>
       </div>
     </div>

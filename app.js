@@ -29,13 +29,12 @@ class Game {
     return this.makeGridRandom();
   };
   //  hit tile
-  bombTile = (x, y) => {
-    //      if hit
-    if (this.grid[x][y] === true) {
-      //        calls check neighbors
-      //          check num hits
-    } else {
-      //      if miss
+  hitTile = (shipID) => {
+    if (shipID != -1) {
+      this.shipHP[shipID]--;
+      if (this.shipHP[shipID] === 0) {
+        openModal(undefined, "modal-ship-destroyed");
+      }
     }
     //      check turn
     this.turns--;
@@ -74,6 +73,7 @@ class Cell {
     missAudio.load();
     hit ? hitAudio.play() : missAudio.play();
     e.target.parentElement.classList.add(hit ? "hit" : "miss");
+    game.hitTile(this.shipID);
   };
 }
 
@@ -120,17 +120,30 @@ const openCredits = () => {
 // below is not my code, check credits
 const modals = document.querySelectorAll("[data-modal]");
 
-modals.forEach((trigger) => {
-  trigger.addEventListener("click", (event) => {
-    event.preventDefault();
-    const modal = document.getElementById(trigger.dataset.modal);
-    modal.classList.add("open");
-    const exits = modal.querySelectorAll(".modal-exit");
-    exits.forEach(function (exit) {
-      exit.addEventListener("click", (event) => {
-        event.preventDefault();
-        modal.classList.remove("open");
-      });
+const openModal = (evt, modalName) => {
+  let modal;
+
+  //if is Event
+  if (evt) {
+    evt.preventDefault();
+    if (evt.target.tagName === "BUTTON") {
+      modal = document.getElementById(evt.target.dataset.modal);
+    } else {
+      modal = document.getElementById(evt.target.parentElement.dataset.modal);
+    }
+  } else {
+    modal = document.getElementById(modalName);
+  }
+  modal.classList.add("open");
+  const exits = modal.querySelectorAll(".modal-exit");
+  exits.forEach((exit) => {
+    exit.addEventListener("click", (event) => {
+      event.preventDefault();
+      modal.classList.remove("open");
     });
   });
+};
+
+modals.forEach((trigger) => {
+  trigger.addEventListener("click", openModal);
 });
