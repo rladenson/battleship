@@ -11,7 +11,7 @@ class Game {
     this.turns = 70;
     //      makes sure grid is set up properly?
 
-    this.shipHP = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+    this.shipHP = [5, 4, 3, 3, 2];
   }
   //  random start
   makeGridRandom = () => {
@@ -44,14 +44,14 @@ class Game {
     }
   };
   revealShip = (shipID) => {
-    for(let i = 0; i < this.grid.length; i++) {
-      for(let j = 0; j < this.grid[i].length; j++) {
-        if(this.grid[i][j].shipID === shipID) {
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (this.grid[i][j].shipID === shipID) {
           this.grid[i][j].showBorder();
         }
       }
     }
-  }
+  };
   //  check neighbors
   checkNeighbors = () => {};
   //  game over (win)
@@ -87,11 +87,11 @@ class Cell {
   };
   showBorder = () => {
     const border = "1vw solid rgba(0,0,0,.4)";
-    if(!this.left) this.element.style["border-left"] = border;
-    if(!this.right) this.element.style["border-right"] = border;
-    if(!this.up) this.element.style["border-top"] = border;
-    if(!this.down) this.element.style["border-bottom"] = border;
-  }
+    if (!this.left) this.element.style["border-left"] = border;
+    if (!this.right) this.element.style["border-right"] = border;
+    if (!this.up) this.element.style["border-top"] = border;
+    if (!this.down) this.element.style["border-bottom"] = border;
+  };
 }
 
 //make new game
