@@ -15,8 +15,8 @@ class Game {
   }
   //  random start
   makeGridRandom = () => {
-    const grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
-    const gridHTML = buildGridHTML(grid);
+    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
+    const gridHTML = buildGridHTML(this.grid);
     //this.grid = gridHTML[0];
     this.gridEl = gridHTML[1];
     document.getElementById("game").style.display = "block";
@@ -34,6 +34,7 @@ class Game {
       this.shipHP[shipID]--;
       if (this.shipHP[shipID] === 0) {
         openModal(undefined, "modal-ship-destroyed");
+        this.revealShip(shipID);
       }
     }
     //      check turn
@@ -42,6 +43,15 @@ class Game {
       this.lose();
     }
   };
+  revealShip = (shipID) => {
+    for(let i = 0; i < this.grid.length; i++) {
+      for(let j = 0; j < this.grid[i].length; j++) {
+        if(this.grid[i][j].shipID === shipID) {
+          this.grid[i][j].showBorder();
+        }
+      }
+    }
+  }
   //  check neighbors
   checkNeighbors = () => {};
   //  game over (win)
@@ -75,6 +85,13 @@ class Cell {
     e.target.parentElement.classList.add(hit ? "hit" : "miss");
     game.hitTile(this.shipID);
   };
+  showBorder = () => {
+    const border = "1vw solid rgba(0,0,0,.4)";
+    if(!this.left) this.element.style["border-left"] = border;
+    if(!this.right) this.element.style["border-right"] = border;
+    if(!this.up) this.element.style["border-top"] = border;
+    if(!this.down) this.element.style["border-bottom"] = border;
+  }
 }
 
 //make new game
@@ -93,8 +110,8 @@ const buildGridHTML = (gridCells) => {
       inner.classList.add("cellOverlay");
       cell.appendChild(inner);
       cell.classList.add("cell");
-      cell.setAttribute("row", i);
-      cell.setAttribute("col", j);
+      cell.setAttribute("data-row", i);
+      cell.setAttribute("data-col", j);
 
       cell.onclick = gridCells[i][j].hitCell;
 
