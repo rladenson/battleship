@@ -23,8 +23,14 @@
     <div id="manual-start" class="start-hidden"></div>
     <div id="game" class="start-hidden">
       <div id="board"></div>
-      <div id="info">
-        Turns: <span id="turns">-1</span>
+      <div id="sidebar">
+        <div id="info">
+          <div><h1 id="status"></h1></div>
+          <div>Turns: <span id="turns">-1</span></div>
+        </div>
+        <button class="start-hidden" id="restart" onclick="backToStart()">
+          <h2>Play Again</h2>
+        </button>
       </div>
     </div>
     <div id="credits" class="start-hidden">
@@ -52,35 +58,37 @@
       <br /><br />
       <button onclick="backToStart(false)"><h3>Back</h3></button>
     </div>
-    <div class="modal" id="modal-sound-warning">
-      <div class="modal-bg modal-exit"></div>
-      <div class="modal-container">
-        <h1>Warning</h1>
-        <h2>This website uses sound (including explosions)</h2>
-        <button class="modal-close modal-exit">X</button>
+    <div id="modals">
+      <div class="modal" id="modal-sound-warning">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h1>Warning</h1>
+          <h2>This website uses sound (including explosions)</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
       </div>
-    </div>
-    <div class="modal" id="modal-ship-destroyed">
-      <div class="modal-bg modal-exit"></div>
-      <div class="modal-container">
-        <h2>You sunk a ship!</h2>
-        <button class="modal-close modal-exit">X</button>
+      <div class="modal" id="modal-ship-destroyed">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h2>You sunk a ship!</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
       </div>
-    </div>
-    <div class="modal" id="modal-win">
-      <div class="modal-bg modal-exit"></div>
-      <div class="modal-container">
-        <h1>You win!</h1>
-        <h2>You sunk all the ships!</h2>
-        <button class="modal-close modal-exit">X</button>
+      <div class="modal" id="modal-win">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h1>You win!</h1>
+          <h2>You sunk all the ships!</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
       </div>
-    </div>
-    <div class="modal" id="modal-lose">
-      <div class="modal-bg modal-exit"></div>
-      <div class="modal-container">
-        <h1>You lose!</h1>
-        <h2>You ran out of turns!</h2>
-        <button class="modal-close modal-exit">X</button>
+      <div class="modal" id="modal-lose">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h1>You lose!</h1>
+          <h2>You ran out of turns!</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
       </div>
     </div>
   </body>

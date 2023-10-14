@@ -84,6 +84,7 @@ class Game {
   win = () => {
     openModal(undefined, "modal-win");
     this.cleanUp();
+    document.getElementById("status").innerText = "WIN";
     setTimeout(() => {
       hitAudio.load();
       winAudio.play();
@@ -93,6 +94,7 @@ class Game {
   lose = () => {
     openModal(undefined, "modal-lose");
     this.cleanUp();
+    document.getElementById("status").innerText = "LOSS";
   };
   cleanUp = () => {
     for (let i = 0; i < this.grid.length; i++) {
@@ -100,6 +102,7 @@ class Game {
         this.grid[i][j].cleanUp();
       }
     }
+    document.getElementById("restart").style.display = "block";
   };
 }
 
