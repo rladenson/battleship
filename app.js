@@ -31,19 +31,26 @@ class Game {
   };
   //  hit tile
   hitTile = (shipID) => {
+    let shipDestroyed = false;
     if (shipID != -1) {
       this.shipHP[shipID]--;
       if (this.shipHP[shipID] === 0) {
-        openModal(undefined, "modal-ship-destroyed");
+        shipDestroyed = true;
         this.revealShip(shipID);
+        let win = true;
+        for (let i = 0; i < this.shipHP.length; i++) {
+          if (this.shipHP[i] !== 0) win = false;
+        }
+        if (win) return this.win();
       }
     }
     //      check turn
     this.turns--;
     document.getElementById("turns").innerText = this.turns;
-    if (this.turns <= 0) {
-      this.lose();
-    }
+    if (this.turns <= 0) return this.lose();
+
+    //we only open a ship destroyed modal if you don't win or lose
+    if (shipDestroyed) openModal(undefined, "modal-ship-destroyed");
   };
   revealShip = (shipID) => {
     for (let i = 0; i < this.grid.length; i++) {
@@ -57,9 +64,22 @@ class Game {
   //  check neighbors
   checkNeighbors = () => {};
   //  game over (win)
-  win = () => {};
+  win = () => {
+    openModal(undefined, "modal-win");
+    this.cleanUp();
+  };
   //  game over (out of turns)
-  lose = () => {};
+  lose = () => {
+    openModal(undefined, "modal-lose");
+    this.cleanUp();
+  };
+  cleanUp = () => {
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        this.grid[i][j].cleanUp();
+      }
+    }
+  }
 }
 
 class Cell {
@@ -93,6 +113,10 @@ class Cell {
     if (!this.right) this.element.style["border-right"] = border;
     if (!this.up) this.element.style["border-top"] = border;
     if (!this.down) this.element.style["border-bottom"] = border;
+  };
+  cleanUp = () => {
+    this.element.onclick = "";
+    this.element.innerHTML = "";
   };
 }
 
