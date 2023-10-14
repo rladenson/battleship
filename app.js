@@ -57,7 +57,23 @@ class Game {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j].shipID === shipID) {
-          this.grid[i][j].showBorder();
+          let up = false;
+          if (i !== 0 && this.grid[i - 1][j].shipID === shipID) up = true;
+          let down = false;
+          if (
+            i !== this.grid.length - 1 &&
+            this.grid[i + 1][j].shipID === shipID
+          )
+            down = true;
+          let left = false;
+          if (j !== 0 && this.grid[i][j - 1].shipID === shipID) left = true;
+          let right = false;
+          if (
+            j !== this.grid[i].length - 1 &&
+            this.grid[i][j + 1].shipID === shipID
+          )
+            right = true;
+          this.grid[i][j].showBorder(up, down, left, right);
         }
       }
     }
@@ -88,15 +104,11 @@ class Game {
 }
 
 class Cell {
-  constructor(shipID, left = false, right = false, up = false, down = false) {
+  constructor(shipID) {
     //number
     this.shipID = shipID;
-    //bools
-    this.left = left;
-    this.right = right;
-    this.up = up;
-    this.down = down;
 
+    //bool
     this.hit = false;
   }
   setElement = (element) => {
@@ -112,12 +124,12 @@ class Cell {
     e.target.parentElement.classList.add(hit ? "hit" : "miss");
     game.hitTile(this.shipID);
   };
-  showBorder = () => {
+  showBorder = (up, down, left, right) => {
     const border = "1vw solid rgba(0,0,0,.4)";
-    if (!this.left) this.element.style["border-left"] = border;
-    if (!this.right) this.element.style["border-right"] = border;
-    if (!this.up) this.element.style["border-top"] = border;
-    if (!this.down) this.element.style["border-bottom"] = border;
+    if (!left) this.element.style["border-left"] = border;
+    if (!right) this.element.style["border-right"] = border;
+    if (!up) this.element.style["border-top"] = border;
+    if (!down) this.element.style["border-bottom"] = border;
   };
   cleanUp = () => {
     this.element.onclick = "";
