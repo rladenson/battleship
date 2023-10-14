@@ -166,3 +166,5 @@ const openModal = (evt, modalName) => {
 modals.forEach((trigger) => {
   trigger.addEventListener("click", openModal);
 });
+
+backToStart();
