@@ -8,7 +8,7 @@ class Game {
     //      calls one of starts
     manualStart ? this.makeGridManual() : this.makeGridRandom();
     //      initialize turns
-    this.turns = 70;
+    this.turns = 60;
     document.getElementById("turns").innerText = this.turns;
     //      makes sure grid is set up properly?
 
