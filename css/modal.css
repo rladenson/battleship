@@ -41,3 +41,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+#modal-win .modal-container {
+  background-color: lightblue;
+}

@@ -1,6 +1,7 @@
 let game;
 const missAudio = new Audio("assets/352103__inspectorj__splash-jumping-g.wav");
 const hitAudio = new Audio("assets/521105__matrixxx__retro-explosion-07.wav");
+const winAudio = new Audio("assets/495005__evretro__win-video-game-sound.wav");
 //game class
 class Game {
   //  constr
@@ -67,6 +68,10 @@ class Game {
   win = () => {
     openModal(undefined, "modal-win");
     this.cleanUp();
+    setTimeout(() => {
+      hitAudio.load();
+      winAudio.play();
+    }, 1000);
   };
   //  game over (out of turns)
   lose = () => {
@@ -79,7 +84,7 @@ class Game {
         this.grid[i][j].cleanUp();
       }
     }
-  }
+  };
 }
 
 class Cell {
