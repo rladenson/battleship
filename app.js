@@ -9,6 +9,7 @@ class Game {
     manualStart ? this.makeGridManual() : this.makeGridRandom();
     //      initialize turns
     this.turns = 70;
+    document.getElementById("turns").innerText = this.turns;
     //      makes sure grid is set up properly?
 
     this.shipHP = [5, 4, 3, 3, 2];
@@ -19,9 +20,9 @@ class Game {
     const gridHTML = buildGridHTML(this.grid);
     //this.grid = gridHTML[0];
     this.gridEl = gridHTML[1];
-    document.getElementById("game").style.display = "block";
-    document.getElementById("game").innerHTML = "";
-    document.getElementById("game").appendChild(this.gridEl);
+    document.getElementById("game").style.display = "flex";
+    document.getElementById("board").innerHTML = "";
+    document.getElementById("board").appendChild(this.gridEl);
   };
   //  choice start
   makeGridManual = () => {
@@ -39,6 +40,7 @@ class Game {
     }
     //      check turn
     this.turns--;
+    document.getElementById("turns").innerText = this.turns;
     if (this.turns <= 0) {
       this.lose();
     }

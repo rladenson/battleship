@@ -2,6 +2,9 @@ body {
   background-color: rgb(61, 14, 14);
   color: whitesmoke;
   text-align: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 }
 #start {
   min-height: 60vh;
@@ -44,7 +47,21 @@ body {
 #credits button {
   padding: 0 10vw;
 }
-
+#info {
+  background-color: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  padding: 2em;
+  border-radius: 10px;
+  border: 5px solid rgba(0,0,0,.5);
+}
+#game {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
 
 .start-hidden {
   display: none;
