@@ -14,6 +14,13 @@ class Cell {
     this.element = element;
     this.interactable = interactable;
   };
+  showBorder = (up, down, left, right) => {
+    const border = "1vw solid rgba(0,0,0,.4)";
+    if (!left) this.element.style["border-left"] = border;
+    if (!right) this.element.style["border-right"] = border;
+    if (!up) this.element.style["border-top"] = border;
+    if (!down) this.element.style["border-bottom"] = border;
+  };
 }
 
 class GameCell extends Cell {
@@ -33,13 +40,6 @@ class GameCell extends Cell {
     hit ? hitAudio.play() : missAudio.play();
     this.element.classList.add(hit ? "hit" : "miss");
     game.hitTile(this.shipID);
-  };
-  showBorder = (up, down, left, right) => {
-    const border = "1vw solid rgba(0,0,0,.4)";
-    if (!left) this.element.style["border-left"] = border;
-    if (!right) this.element.style["border-right"] = border;
-    if (!up) this.element.style["border-top"] = border;
-    if (!down) this.element.style["border-bottom"] = border;
   };
   cleanUp = () => {
     this.element.onclick = "";
@@ -71,6 +71,7 @@ class StartCell extends Cell {
       tiles[i].shipID = this.game.shipHP.length;
       tiles[i].element.classList.add("hit");
     }
+    this.game.revealShip(this.game.shipHP.length);
     this.game.shipHP.push(tiles.length);
     document.getElementById("manual-done").removeAttribute("disabled");
   };
