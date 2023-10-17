@@ -21,13 +21,15 @@
       <button hidden><h2>How To Play</h2></button>
       <button onclick="openCredits()"><h2>Credits</h2></button>
     </div>
-    <div id="manual-start" class="start-hidden"></div>
     <div id="game" class="start-hidden">
       <div id="board"></div>
       <div id="sidebar">
         <div id="info">
           <div><h1 id="status"></h1></div>
-          <div>Turns: <span id="turns">-1</span></div>
+          <div id="turns-container" class="start-hidden">
+            Turns: <span id="turns">-1</span>
+          </div>
+          <div id="manual-start"></div>
         </div>
         <button class="start-hidden" id="restart" onclick="backToStart()">
           <h2>Play Again</h2>

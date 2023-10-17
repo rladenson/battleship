@@ -33,11 +33,45 @@ class Game {
     document.getElementById("board").appendChild(gridHTML[1]);
     document.getElementById("board").appendChild(gridHTML[2]);
     document.getElementById("board").appendChild(gridHTML[3]);
+
+    document.getElementById("turns-container").style.display = "block";
   };
   //  choice start
   makeGridManual = () => {
-    //this will be changed later, but until I implement that
-    return this.makeGridRandom();
+    const gridHTML = buildGridsFromScratch(this);
+    this.grid = gridHTML[0];
+
+    document.getElementById("game").style.display = "flex";
+    document.getElementById("board").innerHTML = "";
+
+    const container = document.getElementById("manual-start");
+    let button = document.createElement("button");
+    button.innerHTML = "Placing <span id=\"direction\">horizontally</span>";
+    this.vertical = false;
+    button.onclick = () => {
+      if(this.vertical) {
+        document.getElementById("direction").textContent = "horizontally";
+        this.vertical = false;
+      } else {
+        document.getElementById("direction").textContent = "vertically";
+        this.vertical = true;
+      }
+      this.changeShipLength();
+    };
+    container.appendChild(button);
+    for(let i = 2; i <= 5; i++) {
+      button = document.createElement("button");
+      button.textContent = `Place ${i} cell ship`;
+      button.setAttribute("data-num", i);
+      container.appendChild(button);
+      button.onclick = this.changeShipLength;
+    }
+    this.length = 2;
+    this.changeShipLength();
+
+    document.getElementById("board").appendChild(gridHTML[1]);
+    document.getElementById("board").appendChild(gridHTML[2]);
+    document.getElementById("board").appendChild(gridHTML[3]);
   };
   //  hit tile
   hitTile = (shipID) => {
@@ -113,8 +147,17 @@ class Game {
     }
     document.getElementById("restart").style.display = "block";
   };
+  changeShipLength = (e = undefined) => {
+    if(e) this.length = e.target.dataset.num;
+    if(this.vertical) {
+      this.highlight.style.gridRowEnd = `span ${this.length}`;
+      this.highlight.style.gridColumnEnd = `span 1`;
+    } else {
+      this.highlight.style.gridColumnEnd = `span ${this.length}`;
+      this.highlight.style.gridRowEnd = `span 1`;
+    }
+  }
 }
-
 
 //make new game
 const go = (manualStart) => {
@@ -150,6 +193,42 @@ const buildGridsFromPreset = (gridCells, game) => {
       grid[i][j].setElements(cellTile, interactCell);
 
       interactCell.onclick = grid[i][j].hitCell;
+      interactCell.onmouseover = grid[i][j].hover;
+
+      tilesGrid.appendChild(cellTile);
+      interactableGrid.appendChild(interactCell);
+    }
+  }
+  return [grid, tilesGrid, overlayGrid, interactableGrid];
+};
+const buildGridsFromScratch = (game) => {
+  const grid = [];
+
+  const tilesGrid = document.createElement("div");
+  tilesGrid.classList.add("grid");
+
+  const overlayGrid = document.createElement("div");
+  overlayGrid.classList.add("grid");
+  overlayGrid.appendChild(game.highlight);
+
+  const interactableGrid = document.createElement("div");
+  interactableGrid.classList.add("grid");
+
+  for (let i = 0; i < 10; i++) {
+    grid.push([]);
+    for (let j = 0; j < 10; j++) {
+      const cellTile = document.createElement("div");
+      cellTile.classList.add("cell");
+      cellTile.setAttribute("data-row", i);
+      cellTile.setAttribute("data-col", j);
+
+      const interactCell = document.createElement("div");
+
+      grid[i].push(new StartCell(i, j, game));
+
+      grid[i][j].setElements(cellTile, interactCell);
+
+      interactCell.onclick = grid[i][j].placeShip;
       interactCell.onmouseover = grid[i][j].hover;
 
       tilesGrid.appendChild(cellTile);

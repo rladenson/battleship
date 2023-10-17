@@ -10,6 +10,10 @@ class Cell {
     this.game.highlight.style.gridRowStart = this.x + 1;
     this.game.highlight.style.gridColumnStart = this.y + 1;
   };
+  setElements = (element, interactable) => {
+    this.element = element;
+    this.interactable = interactable;
+  };
 }
 
 class GameCell extends Cell {
@@ -20,10 +24,6 @@ class GameCell extends Cell {
     this.y = y;
     this.game = game;
   }
-  setElements = (element, interactable) => {
-    this.element = element;
-    this.interactable = interactable;
-  };
   hitCell = (e) => {
     if (this.hit) return;
     this.hit = true;
@@ -53,5 +53,8 @@ class StartCell extends Cell {
     this.x = x;
     this.y = y;
     this.game = game;
+  }
+  placeShip = () => {
+    
   }
 }
