@@ -2,28 +2,46 @@ let game;
 const missAudio = new Audio("assets/352103__inspectorj__splash-jumping-g.wav");
 const hitAudio = new Audio("assets/521105__matrixxx__retro-explosion-07.wav");
 const winAudio = new Audio("assets/495005__evretro__win-video-game-sound.wav");
+class Cell {
+  constructor(shipID) {
+    //number
+    this.shipID = shipID;
+
+    //bool
+    this.hit = false;
+  }
+}
+
 //game class
 class Game {
   //  constr
   constructor(manualStart = false) {
+    this.shipHP = [5, 4, 3, 3, 2];
+
+    this.highlight = document.createElement("div");
+    this.highlight.id = "highlight";
+
     //      calls one of starts
     manualStart ? this.makeGridManual() : this.makeGridRandom();
     //      initialize turns
     this.turns = 60;
     document.getElementById("turns").innerText = this.turns;
     //      makes sure grid is set up properly?
-
-    this.shipHP = [5, 4, 3, 3, 2];
   }
   //  random start
   makeGridRandom = () => {
-    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
-    const gridHTML = buildGridHTML(this.grid);
-    //this.grid = gridHTML[0];
-    this.gridEl = gridHTML[1];
+    const gridHTML = buildGridsFromPreset(
+      randomStarts[Math.floor(Math.random() * randomStarts.length)],
+      this
+    );
+    this.grid = gridHTML[0];
+    //this.gridEl = gridHTML[1];
     document.getElementById("game").style.display = "flex";
     document.getElementById("board").innerHTML = "";
-    document.getElementById("board").appendChild(this.gridEl);
+
+    document.getElementById("board").appendChild(gridHTML[1]);
+    document.getElementById("board").appendChild(gridHTML[2]);
+    document.getElementById("board").appendChild(gridHTML[3]);
   };
   //  choice start
   makeGridManual = () => {
@@ -106,16 +124,17 @@ class Game {
   };
 }
 
-class Cell {
-  constructor(shipID) {
-    //number
-    this.shipID = shipID;
+class GameCell extends Cell {
+  constructor(shipID, x, y, game) {
+    super(shipID);
 
-    //bool
-    this.hit = false;
+    this.x = x;
+    this.y = y;
+    this.game = game;
   }
-  setElement = (element) => {
+  setElements = (element, interactable) => {
     this.element = element;
+    this.interactable = interactable;
   };
   hitCell = (e) => {
     if (this.hit) return;
@@ -124,7 +143,7 @@ class Cell {
     hitAudio.load();
     missAudio.load();
     hit ? hitAudio.play() : missAudio.play();
-    e.target.parentElement.classList.add(hit ? "hit" : "miss");
+    this.element.classList.add(hit ? "hit" : "miss");
     game.hitTile(this.shipID);
   };
   showBorder = (up, down, left, right) => {
@@ -138,6 +157,10 @@ class Cell {
     this.element.onclick = "";
     this.element.innerHTML = "";
   };
+  hover = () => {
+    this.game.highlight.style.gridRowStart = this.x + 1;
+    this.game.highlight.style.gridColumnStart = this.y + 1;
+  };
 }
 
 //make new game
@@ -146,26 +169,41 @@ const go = (manualStart) => {
   game = new Game(manualStart);
 };
 
-const buildGridHTML = (gridCells) => {
-  const gridEl = document.createElement("div");
-  gridEl.classList.add("grid");
+const buildGridsFromPreset = (gridCells, game) => {
+  const grid = [];
+
+  const tilesGrid = document.createElement("div");
+  tilesGrid.classList.add("grid");
+
+  const overlayGrid = document.createElement("div");
+  overlayGrid.classList.add("grid");
+  overlayGrid.appendChild(game.highlight);
+
+  const interactableGrid = document.createElement("div");
+  interactableGrid.classList.add("grid");
+
   for (let i = 0; i < gridCells.length; i++) {
+    grid.push([]);
     for (let j = 0; j < gridCells[i].length; j++) {
-      const cell = document.createElement("div");
-      const inner = document.createElement("div");
-      inner.classList.add("cellOverlay");
-      cell.appendChild(inner);
-      cell.classList.add("cell");
-      cell.setAttribute("data-row", i);
-      cell.setAttribute("data-col", j);
+      const cellTile = document.createElement("div");
+      cellTile.classList.add("cell");
+      cellTile.setAttribute("data-row", i);
+      cellTile.setAttribute("data-col", j);
 
-      cell.onclick = gridCells[i][j].hitCell;
+      const interactCell = document.createElement("div");
 
-      gridCells[i][j].setElement(cell);
-      gridEl.appendChild(cell);
+      grid[i].push(new GameCell(gridCells[i][j].shipID, i, j, game));
+
+      grid[i][j].setElements(cellTile, interactCell);
+
+      interactCell.onclick = grid[i][j].hitCell;
+      interactCell.onmouseover = grid[i][j].hover;
+
+      tilesGrid.appendChild(cellTile);
+      interactableGrid.appendChild(interactCell);
     }
   }
-  return [gridCells, gridEl];
+  return [grid, tilesGrid, overlayGrid, interactableGrid];
 };
 
 const backToStart = () => {
@@ -174,6 +212,12 @@ const backToStart = () => {
     hide[i].style.display = "none";
   }
   document.getElementById("start").style.display = "flex";
+  document.getElementById("status").textContent = "";
+  while (document.getElementById("board").hasChildNodes()) {
+    document
+      .getElementById("board")
+      .removeChild(document.getElementById("board").firstChild);
+  }
 };
 const openCredits = () => {
   document.getElementById("start").style.display = "none";
