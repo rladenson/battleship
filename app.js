@@ -7,7 +7,7 @@ const winAudio = new Audio("assets/495005__evretro__win-video-game-sound.wav");
 class Game {
   //  constr
   constructor(manualStart = false) {
-    this.shipHP = [5, 4, 3, 3, 2];
+    this.shipHP = [];
 
     this.highlight = document.createElement("div");
     this.highlight.id = "highlight";
@@ -21,20 +21,9 @@ class Game {
   }
   //  random start
   makeGridRandom = () => {
-    const gridHTML = buildGridsFromPreset(
-      randomStarts[Math.floor(Math.random() * randomStarts.length)],
-      this
-    );
-    this.grid = gridHTML[0];
-    //this.gridEl = gridHTML[1];
-    document.getElementById("game").style.display = "flex";
-    document.getElementById("board").innerHTML = "";
-
-    document.getElementById("board").appendChild(gridHTML[1]);
-    document.getElementById("board").appendChild(gridHTML[2]);
-    document.getElementById("board").appendChild(gridHTML[3]);
-
-    document.getElementById("turns-container").style.display = "block";
+    this.shipHP = [5, 4, 3, 3, 2];
+    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
+    this.startGame();
   };
   //  choice start
   makeGridManual = () => {
@@ -43,13 +32,15 @@ class Game {
 
     document.getElementById("game").style.display = "flex";
     document.getElementById("board").innerHTML = "";
+    document.getElementById("manual-done").style.display = "flex";
 
     const container = document.getElementById("manual-start");
+    container.innerHTML = "";
     let button = document.createElement("button");
-    button.innerHTML = "Placing <span id=\"direction\">horizontally</span>";
+    button.innerHTML = 'Placing <span id="direction">horizontally</span>';
     this.vertical = false;
     button.onclick = () => {
-      if(this.vertical) {
+      if (this.vertical) {
         document.getElementById("direction").textContent = "horizontally";
         this.vertical = false;
       } else {
@@ -59,7 +50,7 @@ class Game {
       this.changeShipLength();
     };
     container.appendChild(button);
-    for(let i = 2; i <= 5; i++) {
+    for (let i = 2; i <= 5; i++) {
       button = document.createElement("button");
       button.textContent = `Place ${i} cell ship`;
       button.setAttribute("data-num", i);
@@ -72,6 +63,26 @@ class Game {
     document.getElementById("board").appendChild(gridHTML[1]);
     document.getElementById("board").appendChild(gridHTML[2]);
     document.getElementById("board").appendChild(gridHTML[3]);
+
+    document.getElementById("manual-done").onclick = this.startGame;
+  };
+  startGame = () => {
+    this.length = 1;
+    this.changeShipLength();
+    document.getElementById("manual-done").style.display = "none";
+    document.getElementById("manual-start").style.display = "none";
+
+    const gridHTML = buildGridsFromPreset(this.grid, this);
+    this.grid = gridHTML[0];
+    //this.gridEl = gridHTML[1];
+    document.getElementById("game").style.display = "flex";
+    document.getElementById("board").innerHTML = "";
+
+    document.getElementById("board").appendChild(gridHTML[1]);
+    document.getElementById("board").appendChild(gridHTML[2]);
+    document.getElementById("board").appendChild(gridHTML[3]);
+
+    document.getElementById("turns-container").style.display = "block";
   };
   //  hit tile
   hitTile = (shipID) => {
@@ -148,15 +159,15 @@ class Game {
     document.getElementById("restart").style.display = "block";
   };
   changeShipLength = (e = undefined) => {
-    if(e) this.length = e.target.dataset.num;
-    if(this.vertical) {
+    if (e) this.length = parseInt(e.target.dataset.num);
+    if (this.vertical) {
       this.highlight.style.gridRowEnd = `span ${this.length}`;
       this.highlight.style.gridColumnEnd = `span 1`;
     } else {
       this.highlight.style.gridColumnEnd = `span ${this.length}`;
       this.highlight.style.gridRowEnd = `span 1`;
     }
-  }
+  };
 }
 
 //make new game

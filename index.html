@@ -34,6 +34,9 @@
         <button class="start-hidden" id="restart" onclick="backToStart()">
           <h2>Play Again</h2>
         </button>
+        <button class="start-hidden" id="manual-done" disabled>
+          <h2>Done!</h2>
+        </button>
       </div>
     </div>
     <div id="credits" class="start-hidden">
@@ -90,6 +93,20 @@
         <div class="modal-container">
           <h1>You lose!</h1>
           <h2>You ran out of turns!</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
+      </div>
+      <div class="modal" id="modal-ship-out-of-bounds">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h2>Please place your ship fully in bounds</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
+      </div>
+      <div class="modal" id="modal-overlapping-ships">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h2>Ships cannot be overlapping</h2>
           <button class="modal-close modal-exit">X</button>
         </div>
       </div>

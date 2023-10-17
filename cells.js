@@ -55,6 +55,23 @@ class StartCell extends Cell {
     this.game = game;
   }
   placeShip = () => {
-    
-  }
+    if (this.game.length + (this.game.vertical ? this.x : this.y) > 10)
+      return openModal(undefined, "modal-ship-out-of-bounds");
+    const tiles = [];
+    for (let i = 0; i < this.game.length; i++) {
+      const cell =
+        this.game.grid[this.game.vertical ? this.x + i: this.x][
+          this.game.vertical ? this.y : this.y + i
+        ];
+      if(cell.shipID !== -1)
+        return openModal(undefined, "modal-overlapping-ships");
+      tiles.push(cell);
+    }
+    for(let i = 0; i < tiles.length; i++) {
+      tiles[i].shipID = this.game.shipHP.length;
+      tiles[i].element.classList.add("hit");
+    }
+    this.game.shipHP.push(tiles.length);
+    document.getElementById("manual-done").removeAttribute("disabled");
+  };
 }
