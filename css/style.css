@@ -22,6 +22,9 @@ body {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+#board {
+  position: relative;
+}
 .grid {
   position: absolute;
   top: 0;
@@ -30,12 +33,15 @@ body {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   width: 90vw;
-  max-width: 90vh;
+  max-width: 60vh;
   height: 90vw;
-  max-height: 90vh;
+  max-height: 60vh;
   margin: 0 auto;
   margin-top: 2em;
   gap: 1px;
+}
+.grid.first-grid {
+  position: relative;
 }
 .cell {
   background-color: gray;
@@ -58,13 +64,16 @@ body {
 }
 #info {
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 2em;
+  padding: 1em;
+  margin: 1em;
   border-radius: 10px;
   border: 5px solid rgba(0, 0, 0, 0.5);
 }
 #manual-start {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #manual-start button {
   margin: .5em;
@@ -79,4 +88,10 @@ h1#status, #restart h2 {
 }
 #credits button {
   padding: 0 10vw;
+}
+
+@media (min-aspect-ratio: 313 / 337) {
+  #manual-start {
+    flex-direction: column;
+  }
 }

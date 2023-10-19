@@ -36,6 +36,13 @@ class Game {
 
     const container = document.getElementById("manual-start");
     container.innerHTML = "";
+    for (let i = 2; i <= 5; i++) {
+      const button = document.createElement("button");
+      button.textContent = `Place ${i} cell ship`;
+      button.setAttribute("data-num", i);
+      container.appendChild(button);
+      button.onclick = this.changeShipLength;
+    }
     let button = document.createElement("button");
     button.innerHTML = 'Placing <span id="direction">horizontally</span>';
     this.vertical = false;
@@ -50,13 +57,6 @@ class Game {
       this.changeShipLength();
     };
     container.appendChild(button);
-    for (let i = 2; i <= 5; i++) {
-      button = document.createElement("button");
-      button.textContent = `Place ${i} cell ship`;
-      button.setAttribute("data-num", i);
-      container.appendChild(button);
-      button.onclick = this.changeShipLength;
-    }
     this.length = 2;
     this.changeShipLength();
 
@@ -181,6 +181,7 @@ const buildGridsFromPreset = (gridCells, game) => {
 
   const tilesGrid = document.createElement("div");
   tilesGrid.classList.add("grid");
+  tilesGrid.classList.add("first-grid");
 
   const overlayGrid = document.createElement("div");
   overlayGrid.classList.add("grid");
@@ -217,6 +218,7 @@ const buildGridsFromScratch = (game) => {
 
   const tilesGrid = document.createElement("div");
   tilesGrid.classList.add("grid");
+  tilesGrid.classList.add("first-grid");
 
   const overlayGrid = document.createElement("div");
   overlayGrid.classList.add("grid");

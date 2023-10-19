@@ -15,7 +15,7 @@ class Cell {
     this.interactable = interactable;
   };
   showBorder = (up, down, left, right) => {
-    const border = "1vw solid rgba(0,0,0,.4)";
+    const border = "6px solid rgba(0,0,0,.4)";
     if (!left) this.element.style["border-left"] = border;
     if (!right) this.element.style["border-right"] = border;
     if (!up) this.element.style["border-top"] = border;
