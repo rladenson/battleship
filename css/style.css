@@ -76,14 +76,15 @@ body {
   justify-content: center;
 }
 #manual-start button {
-  margin: .5em;
+  margin: 0.5em;
   min-width: 10em;
 }
 #restart {
   margin-top: 1em;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
 }
-h1#status, #restart h2 {
+h1#status,
+#restart h2 {
   margin: 0;
 }
 #credits button {
