@@ -33,17 +33,19 @@
           </div>
           <div id="manual-start"></div>
         </div>
-        <button class="start-hidden" id="restart" onclick="backToStart()">
-          <h2>Play Again</h2>
-        </button>
-        <button
-          class="start-hidden"
-          id="manual-done"
-          data-modal="modal-sound-warning"
-          disabled
-        >
-          <h2>Done!</h2>
-        </button>
+        <div id="buttons">
+          <button id="restart" onclick="backToStart()">
+            <h2>Back</h2>
+          </button>
+          <button
+            class="start-hidden"
+            id="manual-done"
+            data-modal="modal-sound-warning"
+            disabled
+          >
+            <h2>Done!</h2>
+          </button>
+        </div>
       </div>
     </div>
     <div id="credits" class="start-hidden">

@@ -32,10 +32,11 @@ class Game {
 
     document.getElementById("game").style.display = "flex";
     document.getElementById("board").innerHTML = "";
-    document.getElementById("manual-done").style.display = "flex";
+    document.getElementById("manual-done").style.display = "block";
 
     const container = document.getElementById("manual-start");
     container.innerHTML = "";
+    container.style.display = "flex";
     for (let i = 2; i <= 5; i++) {
       const button = document.createElement("button");
       button.textContent = `Place ${i} cell ship`;
@@ -156,7 +157,6 @@ class Game {
         this.grid[i][j].cleanUp();
       }
     }
-    document.getElementById("restart").style.display = "block";
   };
   changeShipLength = (e = undefined) => {
     if (e) this.length = parseInt(e.target.dataset.num);
