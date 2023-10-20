@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
 }
+
 #start {
   min-height: 35em;
   display: flex;
@@ -15,6 +16,7 @@ body {
 #start button {
   margin: 0 10vw;
 }
+
 #game {
   height: 100%;
   display: flex;
@@ -50,10 +52,6 @@ body {
 .hit {
   background-color: rgb(43, 43, 43);
 }
-span.hit,
-span.miss {
-  border: 2px solid black;
-}
 .miss {
   background-color: rgb(47, 47, 213);
 }
@@ -73,6 +71,9 @@ span.miss {
   border-radius: 10px;
   border: 5px solid rgba(0, 0, 0, 0.5);
 }
+h1#status {
+  margin: 0;
+}
 #manual-start {
   display: flex;
   flex-direction: row;
@@ -83,10 +84,7 @@ span.miss {
   margin: 0.5em;
   min-width: 10em;
 }
-h1#status {
-  margin: 0;
-}
-#buttons {
+#sidebar #buttons {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -94,15 +92,21 @@ h1#status {
 #buttons button {
   width: 8em;
 }
+
 #credits button {
   padding: 0 10vw;
 }
 p {
   padding: 0 16px;
 }
+
 #how-to-play h2 {
   margin-top: 0;
   padding-top: 20px;
+}
+span.hit,
+span.miss {
+  border: 2px solid black;
 }
 
 @media (min-aspect-ratio: 313 / 337) {
