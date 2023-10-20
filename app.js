@@ -5,6 +5,14 @@ const winAudio = new Audio("assets/495005__evretro__win-video-game-sound.wav");
 
 //game class
 class Game {
+  //var list
+  //shipHP: int[]
+  //highlight: div
+  //turns: int
+  //grid: int[][]
+  //vertical: bool
+  //length: int
+
   //  constr
   constructor(manualStart = false) {
     this.shipHP = [];
@@ -133,8 +141,6 @@ class Game {
       }
     }
   };
-  //  check neighbors
-  checkNeighbors = () => {};
   //  game over (win)
   win = () => {
     openModal(undefined, "modal-win");
