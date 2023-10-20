@@ -13,8 +13,8 @@
 
   <body>
     <div id="start">
-      <h1>Welcome to Battleship!</h1>
-      <button onclick="go(true)"><h2>Manual Start</h2></button>
+      <h1>Welcome to Single Player Battleship!</h1>
+      <button onclick="go(true)" data-modal="modal-give-to-friend"><h2>Manual Start</h2></button>
       <button onclick="go(false)" data-modal="modal-sound-warning">
         <h2>Random Start</h2>
       </button>
@@ -70,6 +70,13 @@
         <div class="modal-container">
           <h1>Warning</h1>
           <h2>This website uses sound (including explosions)</h2>
+          <button class="modal-close modal-exit">X</button>
+        </div>
+      </div>
+      <div class="modal" id="modal-give-to-friend">
+        <div class="modal-bg modal-exit"></div>
+        <div class="modal-container">
+          <h3>This page makes the grid you will be searching for ships. Hand it to a friend to do for you or go back to the menu and choose a random start!</h2>
           <button class="modal-close modal-exit">X</button>
         </div>
       </div>
