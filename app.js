@@ -269,6 +269,11 @@ const openCredits = () => {
   document.getElementById("credits").style.display = "block";
 };
 
+const openHowToPlay = () => {
+  document.getElementById("start").style.display = "none";
+  document.getElementById("how-to-play").style.display = "block";
+};
+
 // below is not my code, check credits
 const modals = document.querySelectorAll("[data-modal]");
 

@@ -14,11 +14,13 @@
   <body>
     <div id="start">
       <h1>Welcome to Single Player Battleship!</h1>
-      <button onclick="go(true)" data-modal="modal-give-to-friend"><h2>Manual Start</h2></button>
+      <button onclick="go(true)" data-modal="modal-give-to-friend">
+        <h2>Manual Start</h2>
+      </button>
       <button onclick="go(false)" data-modal="modal-sound-warning">
         <h2>Random Start</h2>
       </button>
-      <button hidden><h2>How To Play</h2></button>
+      <button onclick="openHowToPlay()"><h2>How To Play</h2></button>
       <button onclick="openCredits()"><h2>Credits</h2></button>
     </div>
     <div id="game" class="start-hidden">
@@ -34,7 +36,12 @@
         <button class="start-hidden" id="restart" onclick="backToStart()">
           <h2>Play Again</h2>
         </button>
-        <button class="start-hidden" id="manual-done" data-modal="modal-sound-warning" disabled>
+        <button
+          class="start-hidden"
+          id="manual-done"
+          data-modal="modal-sound-warning"
+          disabled
+        >
           <h2>Done!</h2>
         </button>
       </div>
@@ -62,7 +69,35 @@
         >
       </h3>
       <br /><br />
-      <button onclick="backToStart(false)"><h3>Back</h3></button>
+      <button onclick="backToStart()"><h3>Back</h3></button>
+    </div>
+    <div id="how-to-play" class="start-hidden">
+      <h2>How to Play</h2>
+      <p>
+        This is a 1 player version of the game Battleship. This means instead of
+        competing against an opponent, you will be playing against the clock--
+        or in this case, a turn counter!
+      </p>
+      <p>
+        The goal of the game is to find and sink each of the ships on the board.
+        Each tile you target costs a turn, whether it hits or misses. Hit tiles
+        will turn to a dark gray color
+        <span class="hit">&nbsp;&nbsp;&nbsp;</span>. Miss tiles (tiles that did
+        not have ships on them) turn blue
+        <span class="miss">&nbsp;&nbsp;&nbsp;</span>.
+      </p>
+      <p>
+        Ships are straight lines, 2-5 tiles long. They can be oriented
+        vertically or horizontally. Once a ship is sunk it will gain a thick
+        border to show the location of the whole ship.
+      </p>
+      <p>
+        If you run out of turns before you find all the ships, you lose. If you
+        find every ship tile before you run out of turns, congratulations! You
+        won!
+      </p>
+      <br /><br />
+      <button onclick="backToStart()"><h3>Good Luck!</h3></button>
     </div>
     <div id="modals">
       <div class="modal" id="modal-sound-warning">
@@ -76,7 +111,11 @@
       <div class="modal" id="modal-give-to-friend">
         <div class="modal-bg modal-exit"></div>
         <div class="modal-container">
-          <h3>This page makes the grid you will be searching for ships. Hand it to a friend to do for you or go back to the menu and choose a random start!</h2>
+          <h3>
+            This page makes the grid you will be searching for ships. Hand it to
+            a friend to do for you or go back to the menu and choose a random
+            start!
+          </h3>
           <button class="modal-close modal-exit">X</button>
         </div>
       </div>

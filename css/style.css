@@ -47,10 +47,14 @@ body {
   background-color: gray;
   border: 1px solid black;
 }
-.cell.hit {
+.hit {
   background-color: rgb(43, 43, 43);
 }
-.cell.miss {
+span.hit,
+span.miss {
+  border: 2px solid black;
+}
+.miss {
   background-color: rgb(47, 47, 213);
 }
 #highlight {
@@ -89,6 +93,13 @@ h1#status,
 }
 #credits button {
   padding: 0 10vw;
+}
+p {
+  padding: 0 16px;
+}
+#how-to-play h2 {
+  margin-top: 0;
+  padding-top: 20px;
 }
 
 @media (min-aspect-ratio: 313 / 337) {
