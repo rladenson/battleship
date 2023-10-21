@@ -3,10 +3,21 @@ const missAudio = new Audio("assets/352103__inspectorj__splash-jumping-g.wav");
 const hitAudio = new Audio("assets/521105__matrixxx__retro-explosion-07.wav");
 const winAudio = new Audio("assets/495005__evretro__win-video-game-sound.wav");
 
+const numberMap = ["zero", "one", "two", "three", "four", "five"];
+
+class Ship {
+  constructor(id, length) {
+    this.id = id;
+    this.length = length;
+    this.hp = length;
+    this.tiles = [];
+  }
+}
+
 //game class
 class Game {
   //var list
-  //shipHP: int[]
+  //ships: [Ship]
   //highlight: div
   //turns: int
   //grid: int[][]
@@ -15,7 +26,7 @@ class Game {
 
   //  constr
   constructor(manualStart = false) {
-    this.shipHP = [];
+    this.ships = [];
 
     this.highlight = document.createElement("div");
     this.highlight.id = "highlight";
@@ -29,7 +40,13 @@ class Game {
   }
   //  random start
   makeGridRandom = () => {
-    this.shipHP = [5, 4, 3, 3, 2];
+    this.ships = [
+      new Ship(0, 5),
+      new Ship(1, 4),
+      new Ship(2, 3),
+      new Ship(3, 3),
+      new Ship(4, 2),
+    ];
     this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
     this.startGame();
   };
@@ -81,7 +98,7 @@ class Game {
     document.getElementById("manual-done").style.display = "none";
     document.getElementById("manual-start").style.display = "none";
 
-    const gridHTML = buildGridsFromPreset(this.grid, this);
+    const gridHTML = buildGridsFromPreset(this.grid, this, this.ships);
     this.grid = gridHTML[0];
     //this.gridEl = gridHTML[1];
     document.getElementById("game").style.display = "flex";
@@ -92,18 +109,30 @@ class Game {
     document.getElementById("board").appendChild(gridHTML[3]);
 
     document.getElementById("turns-container").style.display = "block";
+    document.getElementById("ships-remaining").style.display = "flex";
+
+    for (let i = 0; i < this.ships.length; i++) {
+      const span = document.getElementById(
+        `${numberMap[this.ships[i].length]}-tile`
+      );
+      span.innerText = parseInt(span.innerText) + 1;
+    }
   };
   //  hit tile
-  hitTile = (shipID) => {
+  hitTile = (ship) => {
     let shipDestroyed = false;
-    if (shipID != -1) {
-      this.shipHP[shipID]--;
-      if (this.shipHP[shipID] === 0) {
+    if (ship !== undefined && ship.id != -1) {
+      ship.hp--;
+      if (ship.hp === 0) {
         shipDestroyed = true;
-        this.revealShip(shipID);
+        this.revealShip(ship);
+        const span = document.getElementById(
+          `${numberMap[ship.length]}-tile`
+        );
+        span.innerText = parseInt(span.innerText) - 1;
         let win = true;
-        for (let i = 0; i < this.shipHP.length; i++) {
-          if (this.shipHP[i] !== 0) win = false;
+        for (let i = 0; i < this.ships.length; i++) {
+          if (this.ships[i].hp !== 0) win = false;
         }
         if (win) return this.win();
       }
@@ -116,24 +145,24 @@ class Game {
     //we only open a ship destroyed modal if you don't win or lose
     if (shipDestroyed) openModal(undefined, "modal-ship-destroyed");
   };
-  revealShip = (shipID) => {
+  revealShip = (ship) => {
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
-        if (this.grid[i][j].shipID === shipID) {
+        if (this.grid[i][j].shipID === ship.id) {
           let up = false;
-          if (i !== 0 && this.grid[i - 1][j].shipID === shipID) up = true;
+          if (i !== 0 && this.grid[i - 1][j].shipID === ship.id) up = true;
           let down = false;
           if (
             i !== this.grid.length - 1 &&
-            this.grid[i + 1][j].shipID === shipID
+            this.grid[i + 1][j].shipID === ship.id
           )
             down = true;
           let left = false;
-          if (j !== 0 && this.grid[i][j - 1].shipID === shipID) left = true;
+          if (j !== 0 && this.grid[i][j - 1].shipID === ship.id) left = true;
           let right = false;
           if (
             j !== this.grid[i].length - 1 &&
-            this.grid[i][j + 1].shipID === shipID
+            this.grid[i][j + 1].shipID === ship.id
           )
             right = true;
           this.grid[i][j].showBorder(up, down, left, right);
@@ -163,6 +192,10 @@ class Game {
         this.grid[i][j].cleanUp();
       }
     }
+    const shipCounts = document.getElementsByClassName("ship-count");
+    for (let i = 0; i < shipCounts.length; i++) {
+      shipCounts[i].innerText = 0;
+    }
   };
   changeShipLength = (e = undefined) => {
     if (e) this.length = parseInt(e.target.dataset.num);
@@ -182,7 +215,7 @@ const go = (manualStart) => {
   game = new Game(manualStart);
 };
 
-const buildGridsFromPreset = (gridCells, game) => {
+const buildGridsFromPreset = (gridCells, game, ships = {}) => {
   const grid = [];
 
   const tilesGrid = document.createElement("div");
@@ -206,7 +239,16 @@ const buildGridsFromPreset = (gridCells, game) => {
 
       const interactCell = document.createElement("div");
 
-      grid[i].push(new GameCell(gridCells[i][j].shipID, i, j, game));
+      if (gridCells[i][j].shipID === -1) {
+        grid[i].push(new GameCell(-1, i, j, game));
+      } else if (gridCells[i][j].ship !== undefined) {
+        grid[i].push(new GameCell(gridCells[i][j].ship, i, j, game));
+      } else {
+        grid[i].push(
+          new GameCell(game.ships[gridCells[i][j].shipID], i, j, game)
+        );
+        game.ships[gridCells[i][j].shipID].tiles.push(gridCells[i][j]);
+      }
 
       grid[i][j].setElements(cellTile, interactCell);
 
@@ -269,6 +311,7 @@ const backToStart = () => {
       .getElementById("board")
       .removeChild(document.getElementById("board").firstChild);
   }
+  if (game) game.cleanUp();
 };
 const openCredits = () => {
   document.getElementById("start").style.display = "none";

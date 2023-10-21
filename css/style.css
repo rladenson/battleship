@@ -74,13 +74,13 @@ body {
 h1#status {
   margin: 0;
 }
-#manual-start {
+#manual-start, #ships-remaining {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 }
-#manual-start button {
+#manual-start button, #ships-remaining div {
   margin: 0.5em;
   min-width: 10em;
 }
@@ -110,7 +110,7 @@ span.miss {
 }
 
 @media (min-aspect-ratio: 313 / 337) {
-  #manual-start {
+  #manual-start, #ships-remaining {
     flex-direction: column;
   }
 }

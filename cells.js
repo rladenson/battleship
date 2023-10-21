@@ -24,14 +24,19 @@ class Cell {
 }
 
 class GameCell extends Cell {
-  constructor(shipID, x, y, game) {
-    super(shipID);
+  constructor(ship, x, y, game) {
+    if(typeof(ship) === "object") {
+      super(ship.id);
+      this.ship = ship;
+    } else {
+      super(ship);
+    }
 
     this.x = x;
     this.y = y;
     this.game = game;
   }
-  hitCell = (e) => {
+  hitCell = () => {
     if (this.hit) return;
     this.hit = true;
     const hit = this.shipID !== -1;
@@ -39,7 +44,7 @@ class GameCell extends Cell {
     missAudio.load();
     hit ? hitAudio.play() : missAudio.play();
     this.element.classList.add(hit ? "hit" : "miss");
-    game.hitTile(this.shipID);
+    game.hitTile(this.ship);
   };
   cleanUp = () => {
     this.element.onclick = "";
@@ -67,12 +72,18 @@ class StartCell extends Cell {
         return openModal(undefined, "modal-overlapping-ships");
       tiles.push(cell);
     }
+
+    const ship = new Ship(this.game.ships.length, this.game.length);
+
     for (let i = 0; i < tiles.length; i++) {
-      tiles[i].shipID = this.game.shipHP.length;
+      tiles[i].ship = ship;
+      tiles[i].shipID = ship.id;
       tiles[i].element.classList.add("hit");
+      ship.tiles.push(tiles[i]);
     }
-    this.game.revealShip(this.game.shipHP.length);
-    this.game.shipHP.push(tiles.length);
+
+    this.game.revealShip(ship);
+    this.game.ships.push(ship);
     document.getElementById("manual-done").removeAttribute("disabled");
   };
 }

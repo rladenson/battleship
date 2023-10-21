@@ -31,7 +31,21 @@
           <div id="turns-container" class="start-hidden">
             Turns: <span id="turns">-1</span>
           </div>
-          <div id="manual-start"></div>
+          <div id="manual-start" class="start-hidden"></div>
+          <div id="ships-remaining" class="start-hidden">
+            <div>
+              2 tile ships: <span id="two-tile" class="ship-count">0</span>
+            </div>
+            <div>
+              3 tile ships: <span id="three-tile" class="ship-count">0</span>
+            </div>
+            <div>
+              4 tile ships: <span id="four-tile" class="ship-count">0</span>
+            </div>
+            <div>
+              5 tile ships: <span id="five-tile" class="ship-count">0</span>
+            </div>
+          </div>
         </div>
         <div id="buttons">
           <button id="restart" onclick="backToStart()">
