@@ -25,7 +25,7 @@ class Cell {
 
 class GameCell extends Cell {
   constructor(ship, x, y, game) {
-    if(typeof(ship) === "object") {
+    if (typeof ship === "object") {
       super(ship.id);
       this.ship = ship;
     } else {
@@ -59,9 +59,10 @@ class StartCell extends Cell {
     this.y = y;
     this.game = game;
   }
-  placeShip = () => {
+  placeShip = (suppressErrors = false) => {
     if (this.game.length + (this.game.vertical ? this.x : this.y) > 10)
-      return openModal(undefined, "modal-ship-out-of-bounds");
+      if (suppressErrors) return -1;
+      else return openModal(undefined, "modal-ship-out-of-bounds");
     const tiles = [];
     for (let i = 0; i < this.game.length; i++) {
       const cell =
@@ -69,7 +70,8 @@ class StartCell extends Cell {
           this.game.vertical ? this.y : this.y + i
         ];
       if (cell.shipID !== -1)
-        return openModal(undefined, "modal-overlapping-ships");
+        if (suppressErrors) return -2;
+        else return openModal(undefined, "modal-overlapping-ships");
       tiles.push(cell);
     }
 
@@ -85,5 +87,7 @@ class StartCell extends Cell {
     this.game.revealShip(ship);
     this.game.ships.push(ship);
     document.getElementById("manual-done").removeAttribute("disabled");
+
+    return 0;
   };
 }

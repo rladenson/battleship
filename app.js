@@ -40,16 +40,34 @@ class Game {
   }
   //  random start
   makeGridRandom = () => {
-    this.ships = [
-      new Ship(0, 5),
-      new Ship(1, 4),
-      new Ship(2, 3),
-      new Ship(3, 3),
-      new Ship(4, 2),
-    ];
-    this.grid = randomStarts[Math.floor(Math.random() * randomStarts.length)];
+    const gridHTML = buildGridsFromScratch(this);
+    this.grid = gridHTML[0];
+    
+    this.placeShipRandom(2);
+    this.placeShipRandom(3);
+    this.placeShipRandom(3);
+    this.placeShipRandom(4);
+    this.placeShipRandom(5);
     this.startGame();
   };
+  placeShipRandom = (length) => {
+    this.length = length;
+    let cont = -3;
+    while (cont < 0) {
+      this.vertical = Math.random() > 0.5;
+      if (this.vertical) {
+        cont =
+          this.grid[Math.floor(Math.random() * (10 + 1 - this.length))][
+            Math.floor(Math.random() * 10)
+          ].placeShip(true);
+      } else {
+        cont =
+          this.grid[Math.floor(Math.random() * 10)][
+            Math.floor(Math.random() * (10 + 1 - this.length))
+          ].placeShip(true);
+      }
+    }
+  }
   //  choice start
   makeGridManual = () => {
     const gridHTML = buildGridsFromScratch(this);
@@ -126,9 +144,7 @@ class Game {
       if (ship.hp === 0) {
         shipDestroyed = true;
         this.revealShip(ship);
-        const span = document.getElementById(
-          `${numberMap[ship.length]}-tile`
-        );
+        const span = document.getElementById(`${numberMap[ship.length]}-tile`);
         span.innerText = parseInt(span.innerText) - 1;
         let win = true;
         for (let i = 0; i < this.ships.length; i++) {
@@ -239,15 +255,10 @@ const buildGridsFromPreset = (gridCells, game, ships = {}) => {
 
       const interactCell = document.createElement("div");
 
-      if (gridCells[i][j].shipID === -1) {
-        grid[i].push(new GameCell(-1, i, j, game));
-      } else if (gridCells[i][j].ship !== undefined) {
+      if (gridCells[i][j].ship !== undefined) {
         grid[i].push(new GameCell(gridCells[i][j].ship, i, j, game));
       } else {
-        grid[i].push(
-          new GameCell(game.ships[gridCells[i][j].shipID], i, j, game)
-        );
-        game.ships[gridCells[i][j].shipID].tiles.push(gridCells[i][j]);
+        grid[i].push(new GameCell(-1, i, j, game))
       }
 
       grid[i][j].setElements(cellTile, interactCell);

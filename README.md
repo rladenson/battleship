@@ -17,7 +17,7 @@
 * CSS3
 
 ## Features
-* User can start a game of battleship with a random preset start
+* User can start a game of battleship with a random start
 * User can manually make a starting battleship grid for themself and play off that. 
   * User can place ships of any length from 2-5 tiles (inclusive) horizontally or vertically
 * User can target tiles on the battleship grid and be informed if they hit or miss
