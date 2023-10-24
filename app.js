@@ -366,3 +366,11 @@ modals.forEach((trigger) => {
 });
 
 backToStart();
+
+const url = new URL("https://battleship-backend-sxo0.onrender.com");
+
+pingAPI = async () => {
+  await fetch(url).then((req) => req.text()).then(console.log);
+}
+
+pingAPI();
